@@ -3,7 +3,7 @@
 ## Employee Time Attendance Management System
 
 
-###Features for the E-attendance
+### Features for the E-attendance
 
 -> Hr Add Employee to platform
 
