@@ -76,8 +76,8 @@
               <form action="{{ url('updateStaffStatus/'.Auth::user()->id) }}" method="POST" class="" style="margin:auto;">
                 @method('PUT')
                 @csrf 
-                <input type="checkbox" name="status" {{(Auth::user()->status == 'Signed In') ? 'checked' : ''}} data-toggle="toggle" data-on="Signed In" data-off="Signed Out" data-onstyle="success" data-offstyle="warning" class="text-white">      
-                <button class="btn btn-dark float-right">Enter</button>
+                <input type="checkbox" name="status" {{(Auth::user()->status == 'Signed In') ? 'checked' : ''}} data-toggle="toggle" data-on="{{(Auth::user()->status == 'Signed In') ? 'Signed In' : 'Sign In'}}" data-off="{{(Auth::user()->status == 'Signed Out') ? 'Signed Out' : 'Sign Out'}}" data-onstyle="success" data-offstyle="warning" class="text-white">      
+                <button class="btn btn-dark float-right" {{($stepped_out) ? 'disabled' : ''}} >Enter</button>
               
             </form>
 
@@ -96,7 +96,7 @@
               
               <li class="list-group-item">
                 <b>Currently Stepped out </b><span class="time float-right"><i class="far fa-clock"></i> {{$stepped_out->created_at->format('h:i:s A')}}</span>
-                <p>Check Tab for details </p>
+                <span class="badge pulsate badge-secondary">Check Tab for details </span>
                 
               </li>
              
@@ -151,6 +151,7 @@
               <ul class="nav nav-pills ">
                 <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Attendance Timeline</a></li>
                 <li class="nav-item"><a class="nav-link " href="#step" data-toggle="tab">Stepping In/Out</a></li>
+                <li class="nav-item"><a class="nav-link " href="#details" data-toggle="tab">Details</a></li>
                
               </ul>
             </div><!-- /.card-header -->
@@ -223,7 +224,14 @@
                          {{ $stepped_out_detail->reason }}
 
                          @if ($stepped_out_detail->status == "0")
-                         <a class="btn btn-dark btn-sm text-white" style="">Return</a>
+                         <form action="{{ route('step.in', Auth::user()->id) }}" method="POST" class="" >
+                          @method('PUT')
+                          @csrf 
+                          <input type="text" name="status" value="1" hidden>      
+                          <button class="btn btn-dark btn-sm text-white" style="">Return</button>
+                        
+                      </form>
+                      
                          @elseif($stepped_out_detail->status == "1")
                         <span class="time badge badge-success text-white "> Returned: <i class="fas fa-clock"></i> {{ $stepped_out_detail->updated_at->format('h:i:s a') }} </span>
 
@@ -239,6 +247,36 @@
                
                 </div>
                 <!-- /.tab-pane -->
+                {{ $stepped_out_details->links() }}
+              </div>
+              <div class=" tab-pane" id="details">
+                <div class="row">
+                  <div class="col-md-6">
+                    <ul class="list-group list-group-unbordered mb-3">
+                      <li class="list-group-item">
+                        <b>Email Address:</b> <span class="time float-right"> {{ Auth::user()->email }}</span>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Member Since: </b> <span class="time float-right"> {{ Carbon\Carbon::parse(Auth::user()->member_since)->format('D jS, M Y') }}</span>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Office Hours: </b> <span class="time float-right"> {{ Carbon\Carbon::parse(Auth::user()->designation->time_in)->format('H:i a'). " - ". Carbon\Carbon::parse(Auth::user()->designation->time_out)->format('h:i a')}}</span>
+                      </li>
+                  </div>
+                  <div class="col-md-6">
+                    <ul class="list-group list-group-unbordered mb-3">
+                      <li class="list-group-item">
+                        <b>Mobile Number:</b> <span class="time float-right"> {{ Auth::user()->mobile }}</span>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Gender: </b> <span class="time float-right"> {{ Auth::user()->gender}}</span>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Lateness Benchmark: </b> <span class="time float-right"> {{ Carbon\Carbon::parse(Auth::user()->designation->lateness_benchmark)->format('h:i a')}}</span>
+                      </li>
+                  </div>
+                </div>
+               
               </div>
               <!-- /.tab-content -->
             </div><!-- /.card-body -->

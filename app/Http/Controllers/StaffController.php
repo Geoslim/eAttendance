@@ -24,9 +24,9 @@ class StaffController extends Controller
         if (Gate::allows('staff-only', auth()->user())) {
 
         $staff_details = User::where('id',auth()->user()->id)->get();
-        $staff_attendance = Attendance::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6);;
+        $staff_attendance = Attendance::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(6);
         $stepped_out = StepInOut::where('user_id',auth()->user()->id)->where('status','0')->first();
-        $stepped_out_details = StepInOut::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(2);;
+        $stepped_out_details = StepInOut::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(2);
 
         return view('staff-dashboard')
         ->with('staff_details',$staff_details)
@@ -102,6 +102,10 @@ class StaffController extends Controller
         ]);
         if ($signed === "Signed In" && $current >  $find_status->designation->lateness_benchmark) {
             $late = $current->diffForHumans($find_status->designation->lateness_benchmark, CarbonInterface::DIFF_ABSOLUTE);
+            // User::where('id', auth()->user()->id)->update([
+            //     'lateness' => 1,
+               
+            // ]);
             alert()->success(auth()->user()->fullname.', '. $signed .'. - You\'re '. $late. ' late','Update Success' )->autoclose(10000);
             return redirect()->action('StaffController@index');
         }

@@ -40,6 +40,7 @@
                           <th>Full Name</th>
                           <th>Email</th>
                           <th>Designation</th>
+                          <th>Office Hours</th>
                           <th>Status</th>
                           {{-- <th>Date | Time</th> --}}
                           <th>Action</th>
@@ -55,6 +56,7 @@
                           <td>{{$staff->fullname}}</td>
                           <td>{{$staff->email}}</td>
                           <td>{{$staff->designation->title}}</td>
+                          <td>{{Carbon\Carbon::parse($staff->designation->time_in)->format('H:i a'). " - ". Carbon\Carbon::parse($staff->designation->time_out)->format('h:i a')}}</td>
                           {{-- <td>{{$staff->mobile}}</td> --}}
                           <td>
                               @if($staff->status == "Signed Out")

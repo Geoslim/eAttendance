@@ -36,4 +36,14 @@ class StepInOutController extends Controller
         return redirect()->action('StaffController@index');
     }
     
+    public function stepIn(Request $request, $id)
+    {
+        // dd($request->status);
+        StepInOut::where('user_id', auth()->user()->id)->update([
+            'status' => $request->status,
+            
+        ]);
+        alert()->success('Welcome Back to the Office','Update Success' )->autoclose(10000);
+        return redirect()->action('StaffController@index');
+    }
 }

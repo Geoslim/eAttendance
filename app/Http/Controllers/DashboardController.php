@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\User;
 use App\Attendance;
+use App\StepInOut;
 use App\Staff;
 use App\Designation;
 use SweetAlert;
@@ -38,6 +39,7 @@ class DashboardController extends Controller
         if (Gate::allows('admin-only', auth()->user())) {
             
             $all_staff = User::where('role', "2")->get();
+
         return view('employees.all-employee')->with('all_staff', $all_staff);
         }
         alert()->success('Welcome Back','Redirect');
@@ -119,10 +121,16 @@ class DashboardController extends Controller
         if (Gate::allows('admin-only', auth()->user())) {
         
         $view_employee = User::findOrFail($id);
-        $attendance = Attendance::all();
+        $attendance = Attendance::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(6);
+        $stepped_out = StepInOut::where('user_id',$id)->where('status','0')->first();
+        $stepped_out_details = StepInOut::where('user_id',$id)->orderBy('created_at', 'desc')->paginate(2);
+
         return view('employees.view-employee')
         ->with('view_employee', $view_employee)
-        ->with('attendance', $attendance);
+        ->with('attendance', $attendance)
+        ->with('stepped_out',$stepped_out)
+        ->with('stepped_out_details',$stepped_out_details);
+
     }
     alert()->success('Welcome Back','Redirect');
     return redirect()->action('StaffController@index');

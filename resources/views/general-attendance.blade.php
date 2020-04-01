@@ -39,9 +39,9 @@
                           <th>Full Name</th>
                           <th>Email</th>
                           <th>Designation</th>
-                          <th>Mobile</th>
-                          <th>Lateness</th>
+                          <th>Office Hour</th>
                           <th>Status</th>
+                          {{-- <th>Lateness</th> --}}
                           <th>Date | Time</th>
                           <th>Action</th>
                         </tr>
@@ -55,16 +55,23 @@
                           <td>{{$attend->fullname}}</td>
                           <td>{{$attend->email}}</td>
                           <td>{{$attend->user->designation->title}}</td>
-                          <td>{{$attend->mobile}}</td>
-                          <td><p class=" badge badge-success">Not Late</p></td>
+                          <td>{{Carbon\Carbon::parse($attend->user->designation->time_in)->format('H:i a'). " - ". Carbon\Carbon::parse($attend->user->designation->time_out)->format('h:i a')}}</td>
                           <td>
-                              @if($attend->status == "Signed Out")
-                                <p class="badge badge-warning">{{$attend->status}}</p>
-                              @elseif($attend->status == "Signed In")
-                                <p class="badge badge-success">{{$attend->status}}</p>
+                            @if($attend->status == "Signed Out")
+                              <p class="badge badge-warning">{{$attend->status}}</p>
+                            @elseif($attend->status == "Signed In")
+                              <p class="badge badge-success">{{$attend->status}}</p>
+                            @endif
+                          </td>
+                          {{-- <td>
+                            @if($attend->user->lateness == 1)
+                                <p class="badge badge-warning">Late</p>
+                              @elseif($attend->user->lateness == 0)
+                                <p class="badge badge-success">Not Late</p>
                               @endif
-                            </td>
-                          <td>{{$attend->updated_at->format('D jS, M Y | h:i A')}}</td>
+                          </td> --}}
+                          
+                          <td>{{$attend->updated_at->format('D jS, M Y | h:i a')}}</td>
                           <td></td>
                         </tr>
                     @endforeach

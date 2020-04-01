@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_image');
             $table->integer('hr_approve')->default(1);
             $table->string('status');
+            $table->integer('lateness')->default(0);
             $table->timestamp('member_since')->nullable();
             $table->timestamp('sign_in_threshold')->nullable();
             $table->timestamp('ban_time')->nullable();

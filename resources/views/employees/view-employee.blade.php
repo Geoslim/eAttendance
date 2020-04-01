@@ -72,9 +72,24 @@
                   </span>
                  
                 </li>
-                @endif
-              </ul>
 
+                @endif
+              
+              @if($stepped_out)
+              
+{{--                 
+                <li class="list-group-item">
+                  
+                  <b>Currently  </b><span class=" badge badge-warning float-right">Stepped out</span>
+                
+                  
+                </li> --}}
+                <li class="list-group-item">
+                  <b>Stepped out </b><span class="time float-right"><i class="far fa-clock"></i> {{$stepped_out->created_at->format('h:i:s A')}}</span>
+                  <p>Check Tab for details </p>
+                </li>
+              </ul>
+              @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -89,7 +104,7 @@
             <div class="card-header p-3 row">
               <ul class="nav nav-pills col-md-11">
                 <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Attendance Timeline</a></li>
-                <li class="nav-item"><a class="nav-link " href="#activity" data-toggle="tab">Statistics</a></li>
+                <li class="nav-item"><a class="nav-link " href="#step" data-toggle="tab">Stepping In/Out</a></li>
                 <li class="nav-item"><a class="nav-link " href="#details" data-toggle="tab">Details</a></li>
                
               </ul>
@@ -161,9 +176,38 @@
                 </div>
                 <!-- /.tab-pane -->
 
-                <div class=" tab-pane" id="activity">
-                 
-                  <div class="row">
+                <div class=" tab-pane" id="step">
+                  <div class="timeline">
+                  
+                    <!-- timeline item -->
+                    @foreach ($stepped_out_details as $stepped_out_detail)
+                    <div>
+                      <i class="fas fa-walking bg-blue"></i>
+                      <div class="timeline-item">
+                        <span class="time"><i class="fas fa-clock"></i> {{ $stepped_out_detail->created_at->format('l jS F Y | h:i:s a') }} </span>
+                        <h3 class="timeline-header"><a href="#"> {{ $stepped_out_detail->user->fullname }} </a> stepped out</h3>
+      
+                        <div class="timeline-body">
+                         {{ $stepped_out_detail->reason }}
+
+                         @if ($stepped_out_detail->status == "0")
+                         <span class="time badge badge-warning">Yet to return!</span>
+
+                         @elseif($stepped_out_detail->status == "1")
+                        <span class="time badge badge-success text-white "> Returned: <i class="fas fa-clock"></i> {{ $stepped_out_detail->updated_at->format('h:i:s a') }} </span>
+
+                         @endif
+
+                        </div>
+                      
+                      </div>
+                    </div>
+                    @endforeach
+                    <!-- END timeline item -->
+                
+               
+                </div>
+                  {{-- <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
                       <div class="info-box">
                         <span class="info-box-icon bg-success"><i class="far fa-clock"></i></span>
@@ -231,7 +275,7 @@
                       <!-- /.info-box -->
                     </div>
                     <!-- /.col -->
-                  </div>
+                  </div> --}}
                  
                
                 </div>

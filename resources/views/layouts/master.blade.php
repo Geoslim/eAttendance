@@ -37,6 +37,21 @@
     font-size: 12px;
     padding: 10px;
 }
+.pulsate{
+  padding:3%;
+  display: block;
+  animation: blink 2s ease infinite;
+  /* border-radius: 50%; */
+  border: 4px double lighten(black, 20%);
+}
+
+
+  @keyframes blink{
+0%{opacity: .3;}
+50%{opacity: .7;}
+100%{opacity: 1;}
+
+}
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -85,9 +100,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
-      <img src="" alt="Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">App</span>
+      {{-- <img src="" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
+      <span class="brand-text font-weight-light">e - attendance</span>
     </a>
 
     <!-- Sidebar -->

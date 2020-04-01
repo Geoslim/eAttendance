@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/updateStaffStatus/{id}', 'StaffController@updateStaffStatus')->name('updateStaffStatus');
 
     Route::post('/step-out', 'StepInOutController@stepOut')->name('step.out');
+    Route::put('/step-in/{id}', 'StepInOutController@stepIn')->name('step.in');
 
 });
 
