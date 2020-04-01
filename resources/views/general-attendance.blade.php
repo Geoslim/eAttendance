@@ -28,21 +28,22 @@
             <div class="col-md-11"  style="margin:auto;">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">KJK Staff Attendance</h3>
+                    <h3 class="card-title">KJK Employee Attendance</h3>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover" id="table-data">
                       <thead>                  
                         <tr>
-                          <th style="width: 10px">#</th>
+                          <th>#</th>
                           <th>Full Name</th>
                           <th>Email</th>
-                          <th>Role</th>
+                          <th>Designation</th>
                           <th>Mobile</th>
+                          <th>Lateness</th>
                           <th>Status</th>
                           <th>Date | Time</th>
-                          <th style="width: 40px">Action</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -53,8 +54,9 @@
                           <td>{{$i}}</td>
                           <td>{{$attend->fullname}}</td>
                           <td>{{$attend->email}}</td>
-                          <td>{{$attend->user->designation}}</td>
+                          <td>{{$attend->user->designation->title}}</td>
                           <td>{{$attend->mobile}}</td>
+                          <td><p class=" badge badge-success">Not Late</p></td>
                           <td>
                               @if($attend->status == "Signed Out")
                                 <p class="badge badge-warning">{{$attend->status}}</p>
@@ -62,12 +64,13 @@
                                 <p class="badge badge-success">{{$attend->status}}</p>
                               @endif
                             </td>
-                          <td>{{$attend->updated_at->format('l jS \\of F Y | h:i:s A')}}</td>
+                          <td>{{$attend->updated_at->format('D jS, M Y | h:i A')}}</td>
                           <td></td>
                         </tr>
                     @endforeach
                       </tbody>
                     </table>
+                    {{-- {{ $attendance->links() }} --}}
                   </div>
                   <!-- /.card-body -->
                  

@@ -42,4 +42,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function designation()
+    
+    {
+        return $this->belongsTo(Designation::class);
+    }
+
+    public function stepoutin() 
+    {
+        return $this->hasMany(StepInOut::class);
+    }
 }

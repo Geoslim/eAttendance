@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\RefreshAttendance',
+        //
     ];
 
     /**
@@ -30,9 +30,7 @@ class Kernel extends ConsoleKernel
         //     echo "Hello";
         // })->everyMinute();
 
-        $schedule->command('command:refreshattendance')
-                 ->everyMinute()->runInBackground();
-                //  ->dailyAt('23:59');
+    
                 
     }
 

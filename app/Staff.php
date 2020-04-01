@@ -15,4 +15,10 @@ class Staff extends Model
     public $primarykey = 'id';
 
     public $timestamps = true;
+
+    public function designation()
+    
+    {
+        return $this->belongsTo(Designation::class);
+    }
 }

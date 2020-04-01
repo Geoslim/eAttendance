@@ -27,17 +27,31 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth']], function () {
  
     // admin access
-    Route::get('/dashboard', 'dashboardController@index')->name('dashboard');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-    //manage staff
-    Route::get('/add-staff', 'dashboardController@addStaff');
-    Route::post('/store-staff', 'dashboardController@storeStaff');
-    Route::get('/all-staff', 'dashboardController@allStaff');
-    Route::get('/general-attendance', 'dashboardController@genAttend');
+    //manage employees - admin dashboard
+    Route::get('/add-employee', 'DashboardController@addEmployee');
+    Route::post('/store-employee', 'DashboardController@storeEmployee');
+    Route::get('/all-employees', 'DashboardController@allEmployees');
+    Route::get('/view-employee/{id}', 'DashboardController@viewEmployee')->name('view-employee');
+    Route::delete('/delete-employee/{employee}', 'DashboardController@deleteEmployee')->name('employee.delete');
+
+    Route::get('/general-attendance', 'DashboardController@genAttend');
+
+    Route::get('/designations', 'DesignationsController@index');
+    Route::get('/edit-designation/{id}', 'DesignationsController@edit')->name('designation.edit');
+    Route::put('/designation/{id}', 'DesignationsController@updateDesignation')->name('designation.update');
+    Route::post('/designation', 'DesignationsController@storeDesignation');
+
+    Route::put('/hr-approve/{id}', 'DashboardController@hrApprove')->name('approveuser.update');
     
-    // staff dashboard
+
+
+    // employees dashboard
     Route::get('/staff-dashboard', 'StaffController@index')->name('staff-dashboard');
     Route::put('/updateStaffStatus/{id}', 'StaffController@updateStaffStatus')->name('updateStaffStatus');
+
+    Route::post('/step-out', 'StepInOutController@stepOut')->name('step.out');
 
 });
 

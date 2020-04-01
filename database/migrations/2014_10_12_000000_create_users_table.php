@@ -20,10 +20,15 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
-            $table->string('designation');
+            $table->integer('designation_id');
             $table->string('mobile');
-            $table->string('dept');
+            $table->string('gender')->nullable();
+            $table->string('profile_image');
+            $table->integer('hr_approve')->default(1);
             $table->string('status');
+            $table->timestamp('member_since')->nullable();
+            $table->timestamp('sign_in_threshold')->nullable();
+            $table->timestamp('ban_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

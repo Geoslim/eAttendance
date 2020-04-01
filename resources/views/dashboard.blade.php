@@ -30,12 +30,12 @@
             <div class="inner">
               <h3>{{ count($staff) }}</h3>
 
-              <p>STAFF</p>
+              <p>EMPLOYEE</p>
             </div>
             <div class="icon">
                 <i class="fas fa-users"></i>
             </div>
-            <a href="{{ url('all-staff') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ url('all-employees') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -75,7 +75,7 @@
             <div class="inner">
               <h3>00</h3>
 
-              <p>Blank</p>
+              <p>LATE</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>

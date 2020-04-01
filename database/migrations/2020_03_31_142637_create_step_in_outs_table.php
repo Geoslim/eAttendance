@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBannedUntilToUsersTable extends Migration
+class CreateStepInOutsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddBannedUntilToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('banned_until')->nullable();
+        Schema::create('step_in_outs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('user_id');
+            $table->text('reason');
+            $table->string('status');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddBannedUntilToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('banned_until');
-        });
+        Schema::dropIfExists('step_in_outs');
     }
 }

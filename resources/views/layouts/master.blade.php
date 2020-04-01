@@ -16,7 +16,11 @@
   <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- JQVMap -->
   <link rel="stylesheet" href="{{asset('plugins/jqvmap/jqvmap.min.css')}}">
-  <!-- Theme style -->
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+    <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
@@ -28,6 +32,12 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link href="{{ asset('bootstrap-toggle-master/css/bootstrap-toggle.min.css')}}" rel="stylesheet">
   <script src="{{ asset('js/app.js') }}"></script>
+  <style>
+    .timeline>div>.timeline-item>.timeline-header {
+    font-size: 12px;
+    padding: 10px;
+}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     @include('sweet::alert')
@@ -74,10 +84,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+    <a href="" class="brand-link">
+      <img src="" alt="Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">KJK App</span>
+      <span class="brand-text font-weight-light">App</span>
     </a>
 
     <!-- Sidebar -->
@@ -85,7 +95,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('storage/'. Auth::user()->profile_image)  }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block">{{ Auth::user()->fullname }}</a>
@@ -124,7 +134,7 @@
             <a href="{{ url('staff-dashboard') }}" class="nav-link">
               <i class="nav-icon fas fa-thumbs-up"></i>
               <p>
-                Staff Dashboard
+                Employee Dashboard
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>
@@ -136,24 +146,35 @@
             <a href="#" class="nav-link ">
               <i class="nav-icon fa fa-cog"></i>
               <p>
-                Manage Staff
+                Manage Employees
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url('add-staff') }}" class="nav-link ">
+                <a href="{{ url('add-employee') }}" class="nav-link ">
                   <i class="fa fa-user-plus nav-icon"></i>
-                  <p>Add Staff</p>
+                  <p>Add Employee</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('all-staff') }}" class="nav-link ">
+                <a href="{{ url('all-employees') }}" class="nav-link ">
                     <i class="fa fa-users nav-icon"></i>
-                    <p>All Staff</p>
+                    <p>All Employees</p>
                   </a>
               </li>
             </ul>
+          </li>
+          @endcan
+          @can('admin-only', auth()->user())
+          <li class="nav-item">
+            <a href="{{ url('designations') }}" class="nav-link">
+                <i class="nav-icon fas fa-scroll"></i>
+                <p>
+                  Designations
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
           </li>
           @endcan
           <li class="nav-item">
@@ -184,7 +205,10 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    @if (!url('add-employee'))
     @include('includes.messages')
+    @endif
+    
     @yield('content') 
     
     <!-- /.content -->
@@ -222,7 +246,8 @@
 <script src="{{asset('plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
 <script src="{{asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+<script src="{{asset('plugins/
+/maps/jquery.vmap.usa.js')}}"></script>
 <!-- jQuery Knob Chart -->
 <script src="{{asset('plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
@@ -242,8 +267,18 @@
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
 <script src="{{ asset('bootstrap-toggle-master/js/bootstrap-toggle.min.js')}}"></script>
+<!-- DataTables -->
+<script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script>
 
+ $(function () {
+    $("#table-data").DataTable();
+   
+  });
+</script>
+
+<script>
 $("input[data-bootstrap-switch]").each(function(){
     on: 'Signed In',
       off:'Signed Out',
@@ -251,6 +286,8 @@ $("input[data-bootstrap-switch]").each(function(){
      
       );
     });
+
+   
 </script>
 </body>
 </html>
