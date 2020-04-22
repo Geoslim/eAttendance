@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/store-employee', 'DashboardController@storeEmployee');
     Route::get('/all-employees', 'DashboardController@allEmployees');
     Route::get('/view-employee/{id}', 'DashboardController@viewEmployee')->name('view-employee');
+    Route::put('/update-employee/{id}', 'DashboardController@updateEmployee')->name('update-employee');
     Route::delete('/delete-employee/{employee}', 'DashboardController@deleteEmployee')->name('employee.delete');
 
     Route::get('/general-attendance', 'DashboardController@genAttend');

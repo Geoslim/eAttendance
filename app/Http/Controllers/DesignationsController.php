@@ -33,7 +33,7 @@ class DesignationsController extends Controller
             
         ]);
         $new_designation = new Designation;
-        $new_designation->title = $request->input('title');
+        $new_designation->title = $request->input('title'); 
         $new_designation->time_in = $request->input('time_in');
         $new_designation->time_out = $request->input('time_out');
         $new_designation->lateness_benchmark = $request->input('lateness_benchmark');

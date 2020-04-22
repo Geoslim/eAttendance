@@ -262,6 +262,7 @@
                       <li class="list-group-item">
                         <b>Office Hours: </b> <span class="time float-right"> {{ Carbon\Carbon::parse(Auth::user()->designation->time_in)->format('H:i a'). " - ". Carbon\Carbon::parse(Auth::user()->designation->time_out)->format('h:i a')}}</span>
                       </li>
+                    </ul>
                   </div>
                   <div class="col-md-6">
                     <ul class="list-group list-group-unbordered mb-3">
@@ -274,6 +275,7 @@
                       <li class="list-group-item">
                         <b>Lateness Benchmark: </b> <span class="time float-right"> {{ Carbon\Carbon::parse(Auth::user()->designation->lateness_benchmark)->format('h:i a')}}</span>
                       </li>
+                    </ul>
                   </div>
                 </div>
                

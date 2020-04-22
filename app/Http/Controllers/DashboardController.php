@@ -124,13 +124,66 @@ class DashboardController extends Controller
         $attendance = Attendance::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(6);
         $stepped_out = StepInOut::where('user_id',$id)->where('status','0')->first();
         $stepped_out_details = StepInOut::where('user_id',$id)->orderBy('created_at', 'desc')->paginate(2);
+        $designations = Designation::get();
 
         return view('employees.view-employee')
         ->with('view_employee', $view_employee)
         ->with('attendance', $attendance)
         ->with('stepped_out',$stepped_out)
-        ->with('stepped_out_details',$stepped_out_details);
+        ->with('stepped_out_details',$stepped_out_details)
+        ->with('designations',$designations);
 
+    }
+    alert()->success('Welcome Back','Redirect');
+    return redirect()->action('StaffController@index');
+    }
+
+    public function updateEmployee(Request $request, $id)
+    {
+        if (Gate::allows('admin-only', auth()->user())) {
+        // dd($request->all());
+        $employee = User::find($id);
+        // dd($employee->id);
+        $this->validate($request, [
+            'fullname' => 'required|string|min:7|max:225',
+            'email' => 'required|string|email|max:255|unique:users,email,'. $employee->id,
+            'mobile' => 'required|string|min:7|max:225',
+            'designation' => 'required',
+            'gender' => 'required',
+            'member_since' => 'required',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+        if($request->hasFile('profile_image')){
+          
+                $imagePath = request('profile_image')->store('uploads', 'public');
+                $image = Image::make(public_path("storage/{$imagePath}"))->fit(200, 200);
+                $image->save();
+
+                User::where('id', $id)->update([
+                    'fullname' => $request->input('fullname'),
+                    'email' => $request->input('email'),
+                    'mobile' => $request->input('mobile'),
+                    'designation_id' => $request->input('designation'),
+                    'gender' => $request->input('gender'),                  
+                    'member_since' => $request->input('member_since'),
+                    'profile_image' => $imagePath,
+                
+                ]);
+            }else {
+                User::where('id', $id)->update([
+                    'fullname' => $request->input('fullname'),
+                    'email' => $request->input('email'),
+                    'mobile' => $request->input('mobile'),
+                    'designation_id' => $request->input('designation'),
+                    'gender' => $request->input('gender'),
+                    'member_since' => $request->input('member_since'),
+                    ]);
+            }
+
+
+
+        alert()->success('Employee Updated successfully','Update Success' )->autoclose(10000);
+        return back();
     }
     alert()->success('Welcome Back','Redirect');
     return redirect()->action('StaffController@index');
@@ -160,7 +213,7 @@ class DashboardController extends Controller
     {
         if (Gate::allows('admin-only', auth()->user())) {
         
-        $attendance = Attendance::all();
+        $attendance = Attendance::orderBy('created_at', 'desc')->get();
         return view('general-attendance')->with('attendance', $attendance);
     }
     alert()->success('Welcome Back','Redirect');

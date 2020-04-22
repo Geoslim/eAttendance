@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>KJK Africa | Attendance</title>
+  <title>eAttendance</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>KJK</b>Africa</a>
+    <a href=""><b>e</b>Attendance</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -34,7 +34,7 @@
           <input type="email" id="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">                     
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <span class="fas fa-user-secret"></span>
             </div>
           </div>
           @error('email')<span class="invalid-feedback" role="alert">

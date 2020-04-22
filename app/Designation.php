@@ -17,4 +17,5 @@ class Designation extends Model
     {
         return $this->hasMany(Staff::class);
     }
+    
 }

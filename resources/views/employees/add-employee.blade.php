@@ -37,7 +37,7 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <!-- Small boxes (Stat box) -->
+      <!-- Small boxes (Stat box) --> 
       <div class="row">
         <div class="col-md-5" style="margin:auto;">
             <div class="card card-dark" >

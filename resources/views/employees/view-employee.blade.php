@@ -1,7 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
+@if(count($errors) > 0)
+   
+
+<div class="alert alert-danger text-center">@foreach ($errors->all() as $error) {{$error}}<br/> @endforeach</div>
+
+   
+@endif
 <!-- Content Header (Page header) -->
+{{-- @include('includes.messages') --}}
 <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -106,6 +114,7 @@
                 <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Attendance Timeline</a></li>
                 <li class="nav-item"><a class="nav-link " href="#step" data-toggle="tab">Stepping In/Out</a></li>
                 <li class="nav-item"><a class="nav-link " href="#details" data-toggle="tab">Details</a></li>
+                <li class="nav-item"><a class="nav-link " href="#edit-employee" data-toggle="tab">Edit Employee</a></li>
                
               </ul>
               <span class="col-md-1 float-right">
@@ -294,6 +303,7 @@
                         <li class="list-group-item">
                           <b>Office Hours: </b> <span class="time float-right"> {{ Carbon\Carbon::parse($view_employee->designation->time_in)->format('H:i a'). "-". Carbon\Carbon::parse($view_employee->designation->time_out)->format('h:i a')}}</span>
                         </li>
+                      </ul>
                     </div>
                     <div class="col-md-6">
                       <ul class="list-group list-group-unbordered mb-3">
@@ -306,9 +316,64 @@
                         <li class="list-group-item">
                           <b>Lateness Benchmark: </b> <span class="time float-right"> {{ Carbon\Carbon::parse($view_employee->designation->lateness_benchmark)->format('h:i a')}}</span>
                         </li>
+                      </ul>
                     </div>
                   </div>
                  
+                </div>
+
+                <div class=" tab-pane" id="edit-employee">
+                  <form action=" {{ route('update-employee', $view_employee->id)  }} " method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" value="{{$view_employee->fullname}}">
+                        </div>
+                        <div class="form-group">                      
+                          <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile Number" value="{{$view_employee->mobile}}">
+                        </div>
+                        <div class="form-group">
+                        
+                          <select name="gender" id="gender" class="form-control">
+                            
+                              <option value="Female"{{  ($view_employee->gender == 'Female') ?  'selected' : '' }}> Female</option>
+                              <option value="Male" {{ ($view_employee->gender == 'Male') ?  'selected' : '' }}> Male</option>
+                            
+                          </select>
+                      </div>
+                      <div class="form-group">
+                     
+                          <div class="input-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="profile_image" name="profile_image">
+                              <label class="custom-file-label" for="profile_image">Choose file</label>
+                            </div>
+                         
+                          </div>
+                      </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">                     
+                          <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email Address" value="{{$view_employee->email}}">
+                        </div>
+                        <div class="form-group">
+                          <select name="designation" id="designation" class="form-control">
+                            @foreach($designations as $designation)
+                              <option value="{{ $designation->id }}" {{ ($view_employee->designation_id == $designation->id) ?  'selected' : '' }} }}> {{ $designation->title }}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                        <div class="form-group">                     
+                          <input type="date" class="form-control" id="member_since" name="member_since"  value="{{ Carbon\Carbon::parse($view_employee->member_since)->format('Y-m-d')}}">
+                        </div>
+                        <div class="form-group">                     
+                          <button type="submit" class="btn btn-dark float-right">Update</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
               <!-- /.tab-content -->

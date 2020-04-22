@@ -18,7 +18,9 @@ class CreateAttendancesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('fullname');
             $table->string('email');
+            $table->tinyInteger('designation_id');
             $table->string('status');
+            $table->tinyInteger('lateness')->default(0);
             $table->timestamps();
         });
     }

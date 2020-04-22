@@ -47,7 +47,12 @@ class StaffController extends Controller
         $status = $request->input('status');
         $current = Carbon::now();
         $another = Carbon::now();
+        $for_late = Carbon::now();
+        $late = Carbon::now();
             // $sign_in_threshold = $current->addDay(1)->hour(0)->minute(0)->second(0);
+            // dd($find_status->designation->lateness_benchmark);
+            // dd($for_late->format('h:i') < $find_status->designation->lateness_benchmark);
+            // dd($for_late->format('h:i') ." " .$find_status->designation->lateness_benchmark);
 
         // dd($current->addDay(1)->hour(0)->minute(0)->second(0));
         
@@ -85,14 +90,7 @@ class StaffController extends Controller
             return redirect()->action('StaffController@index');
            }
         else{
-          
-        $new_attendance = new Attendance;
-        $new_attendance->user_id = auth()->user()->id;
-        $new_attendance->fullname = auth()->user()->fullname;
-        $new_attendance->email = auth()->user()->email;
-        $new_attendance->status = $signed;
         
-        $new_attendance->save();
 
         User::where('id', auth()->user()->id)->update([
             'status' => $signed,
@@ -100,22 +98,54 @@ class StaffController extends Controller
             'hr_approve' => $hr_approve,
             'sign_in_threshold' => $sign_in_threshold,
         ]);
-        if ($signed === "Signed In" && $current >  $find_status->designation->lateness_benchmark) {
-            $late = $current->diffForHumans($find_status->designation->lateness_benchmark, CarbonInterface::DIFF_ABSOLUTE);
-            // User::where('id', auth()->user()->id)->update([
-            //     'lateness' => 1,
+        if ($signed === "Signed In" && $for_late->format('h:i') > $find_status->designation->lateness_benchmark) {
+
+            // dd($find_status->designation->lateness_benchmark);
+            $late = $for_late->diffForHumans($find_status->designation->lateness_benchmark, CarbonInterface::DIFF_ABSOLUTE);
+            $lateness = 1;
+            User::where('id', auth()->user()->id)->update([
+                'lateness' => $lateness,
                
-            // ]);
+            ]);
+            $new_attendance = new Attendance;
+            $new_attendance->user_id = auth()->user()->id;
+            $new_attendance->fullname = auth()->user()->fullname;
+            $new_attendance->email = auth()->user()->email;
+            $new_attendance->designation_id = auth()->user()->designation_id;
+            $new_attendance->status = $signed;
+            $new_attendance->lateness = $lateness;
+
+            $new_attendance->save();
+
             alert()->success(auth()->user()->fullname.', '. $signed .'. - You\'re '. $late. ' late','Update Success' )->autoclose(10000);
             return redirect()->action('StaffController@index');
         }
         else{
+            $lateness = 0;
+            User::where('id', auth()->user()->id)->update([
+                'lateness' => $lateness,
+               
+            ]);
+
+            $new_attendance = new Attendance;
+            $new_attendance->user_id = auth()->user()->id;
+            $new_attendance->fullname = auth()->user()->fullname;
+            $new_attendance->email = auth()->user()->email;
+            $new_attendance->designation_id = auth()->user()->designation_id;
+            $new_attendance->status = $signed;
+            $new_attendance->lateness = $lateness;
+            
+            $new_attendance->save();
+
             alert()->success(auth()->user()->fullname.', '. $signed .' successfully','Update Success' )->autoclose(10000);
             return redirect()->action('StaffController@index');
         }
-       
+
+         
+        
         }
     }
+    
 
     
 }
