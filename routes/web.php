@@ -15,7 +15,9 @@
 //     return view('login');
 // });
 
+
 Route::get('/', 'HomeController@index');
+Route::get('/login', 'HomeController@index');
 
 Auth::routes([
     'register' => false,
@@ -25,9 +27,13 @@ Auth::routes([
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
- 
+
     // admin access
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    //admin profile
+    Route::get('/admin-profile', 'AdminController@index')->name('admin.profile');
+    Route::put('/admin-profile/update', 'AdminController@update')->name('admin.profile.update');
 
     //manage employees - admin dashboard
     Route::get('/add-employee', 'DashboardController@addEmployee');
@@ -50,7 +56,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/status/{id}', 'ToDoListController@update_status')->name('update.to_do');
     Route::delete('/delete-to-do-item/{id}', 'ToDoListController@destroy')->name('delete.to_do');
 
-
     // employees dashboard
     Route::get('/staff-dashboard', 'StaffController@index')->name('staff-dashboard');
     Route::put('/updateStaffStatus/{id}', 'StaffController@updateStaffStatus')->name('updateStaffStatus');
@@ -62,7 +67,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
+// Auth::routes();
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');

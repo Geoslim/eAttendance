@@ -84,15 +84,19 @@ class DashboardController extends Controller
 
             $profile_image = $request->file('profile_image');
 
+            // $profile_image = $request->file('profile_image');
+            $filename = time().'.'.$profile_image->getClientOriginalExtension(); 
+            Image::make($profile_image)->fit(200, 200)->save(base_path('public/avatar/'. $filename));
 
-            $ext = $profile_image->getClientOriginalExtension();
-            $image_resize = Image::make($profile_image->getRealPath());
-            $resize = Image::make($image_resize)->fit(200, 200)->encode($ext);
-            $now = Carbon::now()->toDateTimeString();
-            $hash = md5($resize->__toString().$now);
-            $path = "{$hash}.$ext";
-            $url = 'avatar/'.$path;
-            Storage::disk('public')->put($url, $resize->__toString());
+            
+            // $ext = $profile_image->getClientOriginalExtension();
+            // $image_resize = Image::make($profile_image->getRealPath());
+            // $resize = Image::make($image_resize)->fit(200, 200)->encode($ext);
+            // $now = Carbon::now()->toDateTimeString();
+            // $hash = md5($resize->__toString().$now);
+            // $path = "{$hash}.$ext";
+            // $url = 'avatar/'.$path;
+            // Storage::disk('public')->put($url, $resize->__toString());
 
         }
         $new_employee = new User;
@@ -105,7 +109,7 @@ class DashboardController extends Controller
         $password = "1234567890";
         $new_employee->password = Hash::make($password);
         $new_employee->status = "Signed Out";
-        $new_employee->profile_image = $url;
+        $new_employee->profile_image = $filename;
         $new_employee->designation_id = $request->input('designation');
         
         $new_employee->save();

@@ -308,7 +308,7 @@
                           @foreach ($to_do_list as $to_do)
                           
                           <li>
-                           
+                            
                               <!-- checkbox -->
                               <div  class="icheck-primary d-inline ml-2">
                                 <input type="checkbox" value="" name="" id="{{ $to_do->id }}" {{ ($to_do->status == 1)? 'checked':'' }}>

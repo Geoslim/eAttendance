@@ -119,7 +119,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('storage/'. Auth::user()->profile_image)  }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('avatar/'. Auth::user()->profile_image)  }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block">{{ Auth::user()->fullname }}</a>
@@ -196,6 +196,18 @@
                 <i class="nav-icon fas fa-scroll"></i>
                 <p>
                   Designations
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
+          @endcan
+
+          @can('admin-only', auth()->user())
+          <li class="nav-item">
+            <a href="{{ url('/admin-profile') }}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  Admin Profile
                 {{-- <span class="right badge badge-danger">New</span> --}}
               </p>
             </a>

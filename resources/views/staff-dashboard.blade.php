@@ -46,7 +46,7 @@
             <div class="card-body box-profile">
               <div class="text-center">
                 <img class="profile-user-img img-fluid img-circle"
-                  src="storage/{{Auth::user()->profile_image}}"
+                  src="avatar/{{Auth::user()->profile_image}}"
                      alt="User profile picture">
               </div>
 
